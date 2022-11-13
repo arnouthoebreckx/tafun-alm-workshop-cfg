@@ -5,6 +5,11 @@ on:
     branches:
       - '**'
 
+env:
+  OPENSHIFT_SERVER: "https://api.sandbox.x8i5.p1.openshiftapps.com:6443"
+  OPENSHIFT_NAMESPACE: "aernouthoebreckx-dev"
+  HELM_RELEASE_NAME: "tafun-helm"
+  
 jobs:
   validate:
     runs-on: ubuntu-latest
@@ -12,21 +17,22 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v2
       - name: Linting
-        run: helm lint charts/tafun-quarkus/
-  release:
+        run: helm lint .
+  deploy:
     needs: validate
     if: github.ref == 'refs/heads/main'
+    environment: development
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
         uses: actions/checkout@v2
+      - name: Login OpenShift
+        uses: redhat-actions/oc-login@v1
         with:
-          fetch-depth: 0
-      - name: Configure Git
+          openshift_server_url: ${{ env.OPENSHIFT_SERVER }}
+          openshift_token: ${{ secrets.OPENSHIFT_TOKEN }}
+          namespace: ${{ env.OPENSHIFT_NAMESPACE }}
+      - name: Helm upgrade
         run: |
-          git config user.name "$GITHUB_ACTOR"
-          git config user.email "$GITHUB_ACTOR@users.noreply.github.com"
-      - name: Run chart-releaser
-        uses: helm/chart-releaser-action@v1.1.0
-        env:
-          CR_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
+          helm package .
+          helm upgrade --install ${{ env.HELM_RELEASE_NAME }} .
