@@ -25,6 +25,7 @@ secretName: the-answer-to-everything
 env:
   LOG_LEVEL: "INFO"
   DEPLOY_ENVIRONMENT: "DEV"
+  PRICE_BTW: 0.21
 
 imagePullSecrets: []
 nameOverride: ""
