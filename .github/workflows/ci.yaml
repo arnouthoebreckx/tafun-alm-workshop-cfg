@@ -56,4 +56,4 @@ jobs:
           namespace: ${{ env.OPENSHIFT_NAMESPACE }}
       - name: Helm upgrade
         run: |
-          helm upgrade --install ${{ env.HELM_RELEASE_NAME }} ${{ steps.gitRelease.tarball_url }}
+          helm upgrade --install ${{ env.HELM_RELEASE_NAME }} ${{ steps.gitRelease.outputs.assets[0].browser_download_url }}
