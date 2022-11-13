@@ -28,7 +28,7 @@ jobs:
       - name: Check output
         run: |
           echo "${{ steps.gitRelease.outputs.name }}"
-          echo "${{ steps.gitRelease.outputs.assets[0] }}"
+          echo "${{ steps.gitRelease.outputs.assets }}"
   release:
     needs: validate
     if: github.ref == 'refs/heads/main'
