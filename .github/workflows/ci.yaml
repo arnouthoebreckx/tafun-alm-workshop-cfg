@@ -29,6 +29,7 @@ jobs:
         run: |
           echo "${{ steps.gitRelease.outputs.name }}"
           echo "${{ steps.gitRelease.outputs.assets }}"
+          echo "${{ steps.gitRelease.outputs.assets.[0] }}"
   release:
     needs: validate
     if: github.ref == 'refs/heads/main'
