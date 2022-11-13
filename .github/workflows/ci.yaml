@@ -3,7 +3,7 @@ name: Validate & Release Chart
 on:
   push:
     branches:
-      - 'main'
+      - '**'
 
 jobs:
   validate:
@@ -15,13 +15,13 @@ jobs:
         run: helm lint charts/tafun-quarkus/
   release:
     needs: validate
+    if: github.ref == 'refs/heads/master'
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
         uses: actions/checkout@v2
         with:
           fetch-depth: 0
-
       - name: Configure Git
         run: |
           git config user.name "$GITHUB_ACTOR"
