@@ -8,6 +8,8 @@ spec:
   {{- if not .Values.autoscaling.enabled }}
   replicas: {{ .Values.replicaCount }}
   {{- end }}
+  strategy: 
+  {{- .Values.strategy | toYaml | nindent 4 }}
   selector:
     matchLabels:
       {{- include "tafun-quarkus.selectorLabels" . | nindent 6 }}
