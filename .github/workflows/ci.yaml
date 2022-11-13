@@ -53,13 +53,8 @@ jobs:
     environment: development
     runs-on: ubuntu-latest
     steps:
-      - name: git-get-release-action
-        id: gitRelease
-        uses: cardinalby/git-get-release-action@1.2.4
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
-          latest: true
+      - name: Checkout
+        uses: actions/checkout@v2
       - name: Login OpenShift
         uses: redhat-actions/oc-login@v1
         with:
@@ -68,5 +63,5 @@ jobs:
           namespace: ${{ env.OPENSHIFT_NAMESPACE }}
       - name: Helm upgrade
         run: |
-
-          helm upgrade --install ${{ env.HELM_RELEASE_NAME }} ${{ steps.gitRelease.outputs.assets[0].browser_download_url }}
+          helm package .
+          helm upgrade --install ${{ env.HELM_RELEASE_NAME }} .
