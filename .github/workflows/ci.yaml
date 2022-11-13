@@ -17,7 +17,7 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v2
       - name: Linting
-        run: helm lint charts/tafun-quarkus/
+        run: helm lint .
   deploy:
     needs: validate
     if: github.ref == 'refs/heads/main'
