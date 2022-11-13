@@ -44,6 +44,8 @@ jobs:
       - name: git-get-release-action
         id: gitRelease
         uses: cardinalby/git-get-release-action@1.2.4
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           latest: true
       - name: Login OpenShift
