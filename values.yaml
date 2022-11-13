@@ -20,6 +20,12 @@ image:
   # Overrides the image tag whose default is the chart appVersion.
   tag: "main"
 
+secretName: the-answer-to-everything
+
+env:
+  LOG_LEVEL: "INFO"
+  DEPLOY_ENVIRONMENT: "DEV"
+
 imagePullSecrets: []
 nameOverride: ""
 fullnameOverride: ""
